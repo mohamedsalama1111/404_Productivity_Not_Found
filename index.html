@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فن الكسل | مدونة هادئة</title>
+    <!-- استيراد خط عربي رايق مع خط للمبرمجين -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;        /* خلفية داكنة عميقة ومريحة للعين (Night Mode) */
+            --card-bg: #1e293b;         /* خلفية البطاقات بتدرج أفتح قليلاً */
+            --text-main: #f8fafc;       /* نص أبيض ناصع وواضح جداً */
+            --text-muted: #94a3b8;      /* نص ثانوي رمادي فاتح */
+            --accent-cyan: #38bdf8;     /* لون سماوي بارز للروابط والعناوين الفرعية */
+            --accent-green: #4ade80;    /* أخضر كود جذاب للأزرار والتفاعل */
+            --border-color: #334155;    /* حدود واضحة ونظيفة */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 750px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        header h1 span {
+            color: var(--accent-green);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .post-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .post-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .post-title {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .post-meta {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-green);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .post-content p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* جزء زر التفاعل بطابع تيرمينال / كود */
+        .lazy-button-container {
+            text-align: center;
+            margin-top: 40px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .lazy-btn {
+            background-color: var(--accent-green);
+            color: #0f172a;
+            border: none;
+            padding: 14px 30px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.2);
+        }
+
+        .lazy-btn:hover {
+            background-color: #22c55e;
+            transform: translateY(-2px);
+        }
+
+        #lazy-quote {
+            margin-top: 25px;
+            font-family: 'Fira Code', monospace;
+            font-style: normal;
+            color: var(--accent-cyan);
+            min-height: 50px;
+            font-size: 1.1rem;
+            background: #090d16;
+            padding: 15px;
+            border-radius: 6px;
+            border-right: 4px solid var(--accent-green);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>فن الكسل <span>// 404_Productivity_Not_Found</span></h1>
+            <p>منصة برمجية هادئة لكل شخص يفضل تحسين كود حياته عبر عدم فعل أي شيء.</p>
+        </header>
+
+        <main>
+            <article class="post-card">
+                <h2 class="post-title">> لماذا يجب أن تتوقف عن الشعور بالذنب عندما تكسل؟</h2>
+                <div class="post-meta">// author: lazy_developer | read_time: 2m</div>
+                <div class="post-content">
+                    <p>في عالم يركض بسرعة جنونية، ويقدّس الإنتاجية لدرجة المرض، أصبح الكسل مهارة مظلومة. نحن ننسى أحياناً أن الطبيعة نفسها تأخذ وقتاً للراحة؛ الشتاء يأتي ليسترخي الكون، والأشجار تتوقف عن إعطاء الأوراق مؤقتاً.</p>
+                    <p>الكسل ليس خطيئة برمجية، بل هو إعادة ضبط (Reset) لطاقة العقل. عندما تسترخي تماماً ولا تفعل شيئاً، فأنت في الواقع تسمح لأفكارك العميقة بالظهور دون ضغوط.</p>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <h2 class="post-title">> دليلك السريع لعدم فعل أي شيء بإتقان</h2>
+                <div class="post-meta">// author: ceiling_observer | read_time: 1m</div>
+                <div class="post-content">
+                    <p>1. ابعد هاتفك عن يدك بمسافة تجعل الوصول إليه يتطلب مجهوداً أكبر من طاقتك الحالية.</p>
+                    <p>2. انظر إلى السقف وتأمل سكون الغرفة.</p>
+                    <p>3. تنفس ببطء.. تذكر أن لا شيء مهم بما يكفي ليعكر صفو هدوئك الآن.</p>
+                </div>
+            </article>
+
+            <!-- جزء تفاعلي بالـ JS -->
+            <div class="lazy-button-container">
+                <button class="lazy-btn" onclick="showLazyQuote()">$ execute_lazy_thought()</button>
+                <div id="lazy-quote">// اضغط الزر للحصول على حكمة البرمجة والكسل...</div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 مدونة الكسل. All rights reserved (بس لو قدرنا).</p>
+        </footer>
+    </div>
+
+    <script>
+        // مصفوفة حِكم للكسالى بطابع برمجي
+        const lazyQuotes = [
+            "// \"لو كان العمل خيراً، لما فعلناه جماعة.\"",
+            "// \"تأجيل عمل اليوم إلى غدٍ هو أول خطوة نحو السلام النفسي.\"",
+            "// \"الأشياء الجميلة تحدث لمن ينامون طويلاً.\"",
+            "// \"الاسترخاء هو أسمى أنواع الذكاء.\"",
+            "// \"لماذا تقف بينما يمكنك الجلوس؟ ولماذا تجلس بينما يمكنك الاستلقاء؟\""
+        ];
+
+        function showLazyQuote() {
+            const randomIndex = Math.floor(Math.random() * lazyQuotes.length);
+            const quoteElement = document.getElementById('lazy-quote');
+            quoteElement.style.opacity = 0;
+            quoteElement.innerText = lazyQuotes[randomIndex];
+            
+            // تأثير ظهور خفيف
+            setTimeout(() => {
+                quoteElement.style.transition = "opacity 0.4s ease";
+                quoteElement.style.opacity = 1;
+            }, 50);
+        }
+    </script>
+</body>
+</html> 
