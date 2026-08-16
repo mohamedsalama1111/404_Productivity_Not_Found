@@ -152,7 +152,6 @@
         }
         .excuse-btn:hover { background-color: #a855f7; transform: translateY(-2px); }
 
-        /* --- bedtime calculator --- */
         .bedtime-box { border-color: var(--accent-gold); }
         .bedtime-output { border-right-color: var(--accent-gold); color: var(--accent-gold); white-space: pre-line; }
         .bedtime-row { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -188,7 +187,6 @@
         .footer-lazy-badge:hover { background-color: #1e293b; }
         .signature { font-family: 'Fira Code', monospace; color: var(--accent-cyan); font-size: 0.95rem; margin-top: 12px; font-weight: 600; }
 
-        /* --- celebratory toast (replaces alert) --- */
         .toast-overlay {
             position: fixed; inset: 0; background: rgba(5, 10, 20, 0.65);
             backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
@@ -223,7 +221,6 @@
         .toast-overlay.warning-state .toast-card { border-color: var(--accent-red); }
         .toast-overlay.warning-state .toast-title { color: var(--accent-red); }
 
-        /* --- shutdown sequence --- */
         .shutdown-overlay {
             position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.6s ease; z-index: 60;
@@ -239,7 +236,6 @@
         }
         .shutdown-overlay.active ~ .shutdown-hint { opacity: 1; pointer-events: auto; }
 
-        /* --- achievement badge toast (top banner, non-blocking) --- */
         .badge-toast {
             position: fixed; top: -80px; left: 50%; transform: translateX(-50%);
             background: linear-gradient(90deg, var(--card-bg), #1a2b1f);
@@ -258,10 +254,18 @@
             body { padding: 20px 10px; }
             header h1 { font-size: 2.1rem; }
             header p { font-size: 1rem; }
-            .post-card, .terminal-box, .lazy-meter-box, .excuse-box, .bedtime-box { padding: 20px; }
+            .post-card, .terminal-box, .lazy-meter-box, .excuse-box, .bedtime-box, .lazy-button-container { padding: 20px; }
             .post-title { font-size: 1.3rem; }
             .lazy-btn, .terminal-btn, .excuse-btn, .bedtime-btn { width: 100%; padding: 12px 20px; }
             .terminal-input-group, .bedtime-row { flex-direction: column; }
+
+            .toast-card { padding: 28px 20px; }
+            .toast-icon { font-size: 2.4rem; }
+            .toast-primary, .toast-close { width: 100%; padding: 12px 18px; }
+            .badge-toast { padding: 10px 16px; gap: 10px; }
+            .badge-toast .badge-icon { font-size: 1.3rem; }
+            .badge-toast .badge-title { font-size: 0.82rem; }
+            .badge-toast .badge-sub { font-size: 0.72rem; }
         }
 
         @media (min-width: 1024px) {
@@ -274,9 +278,9 @@
 
     <div class="container">
         <header>
-            <div id="sleep-counter" class="sleep-msg">أهلاً بك.. السرير ينتظر قرارك بالإغلاق.</div>
+            <div id="sleep-counter" class="sleep-msg">السرير مستنيك.</div>
             <h1>فن الكسل <span>// 404_Productivity_Not_Found</span></h1>
-            <p>منصة برمجية هادئة لكل شخص يفضل تحسين كود حياته عبر عدم فعل أي شيء.</p>
+            <p>موقع بسيط لكل واحد بيفضل ميعملش حاجة.</p>
         </header>
 
         <main>
@@ -332,24 +336,24 @@
 
             <h3 class="section-title">> مولّد أعذار الديفلوبر الكسول</h3>
             <div class="excuse-box">
-                <p class="helper">عندك تاسك متأخر ومحتاج عذر برمجي يقنع الفريق؟ دوس وخلي الموتور يفكرلك.</p>
-                <div class="excuse-output" id="excuse-output">// لسه ماحدش سأل... دوس الزرار وهات العذر.</div>
+                <p class="helper">عندك تاسك متأخر؟ دوس الزرار وهو هيديك عذر.</p>
+                <div class="excuse-output" id="excuse-output">دوس الزرار وهات العذر.</div>
                 <button class="excuse-btn" onclick="generateExcuse()">$ generate_excuse()</button>
             </div>
 
             <h3 class="section-title">> حاسبة توقيت النوم المثالي</h3>
             <div class="bedtime-box">
-                <p class="helper">الجسم بينام على دورات كل دورة تقريباً 90 دقيقة. قوللي هتصحى الساعة كام، وأنا هقولّك أحسن أوقات تنام فيها دلوقتي.</p>
+                <p class="helper">الجسم بينام على دورات كل دورة حوالي 90 دقيقة. قوللي هتصحى الساعة كام، وأنا هقولّك أحسن أوقات تنام فيها دلوقتي.</p>
                 <div class="bedtime-row">
                     <input type="time" id="wake-time" class="bedtime-input">
                     <button class="bedtime-btn" onclick="calcBedtime()">$ احسبلي</button>
                 </div>
-                <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;">// اختار معاد الصحيان واضغط احسبلي.</div>
+                <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;">اختار معاد الصحيان واضغط احسبلي.</div>
             </div>
 
             <div class="lazy-button-container">
                 <button class="lazy-btn" onclick="showLazyQuote()">$ execute_lazy_thought()</button>
-                <div id="lazy-quote">// اضغط الزر للحصول على حكمة البرمجة والكسل...</div>
+                <div id="lazy-quote">اضغط الزر للحصول على حكمة البرمجة والكسل...</div>
             </div>
         </main>
 
@@ -360,26 +364,23 @@
         </footer>
     </div>
 
-    <!-- celebratory toast, replaces the old alert() -->
     <div class="toast-overlay" id="toast-overlay">
         <div class="toast-card">
             <div class="toast-icon" id="toast-icon">🌙</div>
-            <div class="toast-title" id="toast-title">قرار عظيم!</div>
-            <div class="toast-message" id="toast-message">أغلقت اللابتوب واخترت الراحة على حساب التمرير. الموقع مش هيروح لمكان، إنت روح نام.</div>
+            <div class="toast-title" id="toast-title">تمام كده</div>
+            <div class="toast-message" id="toast-message">قفلت الموقع ونمت. الموقع هيفضل موجود، إنت روح نام.</div>
             <div class="toast-actions" id="toast-actions">
-                <button class="toast-primary" onclick="proceedShutdown()">قفلها خلاص 😴</button>
+                <button class="toast-primary" onclick="proceedShutdown()">أقفل وامشي</button>
                 <button class="toast-close" onclick="showStayWarning()">خليني لسه هنا شوية</button>
             </div>
         </div>
     </div>
 
-    <!-- fake shutdown sequence -->
     <div class="shutdown-overlay" id="shutdown-overlay">
         <div class="shutdown-terminal" id="shutdown-lines"></div>
     </div>
     <div class="shutdown-hint" id="shutdown-hint">اضغط أي مكان للرجوع</div>
 
-    <!-- achievement badge -->
     <div class="badge-toast" id="badge-toast">
         <div class="badge-icon" id="badge-icon">🏆</div>
         <div class="badge-text">
@@ -421,33 +422,33 @@
             quoteElement.innerText = lazyQuotes[randomIndex];
             setTimeout(() => { quoteElement.style.transition = "opacity 0.4s ease"; quoteElement.style.opacity = 1; }, 50);
 
-            if (!quoteUnlocked) { quoteUnlocked = true; showBadge('📜', 'إنجاز: فيلسوف الكسل', 'أول اقتباس اتفتح'); }
+            if (!quoteUnlocked) { quoteUnlocked = true; showBadge('📜', 'قرأت أول اقتباس', ''); }
         }
 
         function runCommand() {
             const input = document.getElementById('terminal-input').value.trim().toLowerCase();
             const output = document.getElementById('terminal-output');
 
-            if (input === 'sleep') output.innerHTML = "$ جاري تفعيل وضع السبات والتخلص من الضغوط... تم بنجاح 💤";
-            else if (input === 'work') output.innerHTML = "$ Error 403: ممنوع العمل في هذا التوقيت! للنوم فقط ❌";
-            else if (input === 'coffee') output.innerHTML = "$ جاري تخمير القهوة السحرية لتعديل المزاج ☕";
+            if (input === 'sleep') output.innerHTML = "$ تم تفعيل وضع النوم 💤";
+            else if (input === 'work') output.innerHTML = "$ Error 403: ممنوع العمل في هذا التوقيت";
+            else if (input === 'coffee') output.innerHTML = "$ جاري عمل القهوة ☕";
             else if (input === '') output.innerHTML = "$ من فضلك اكتب أمراً ما (مثلاً: sleep)";
             else output.innerHTML = `$ أمر غير معروف ("${input}"). الأوامر المتاحة: sleep, work, coffee`;
 
             document.getElementById('terminal-input').value = '';
-            if (!terminalUnlocked && input !== '') { terminalUnlocked = true; showBadge('⌨️', 'إنجاز: هاكر السبات', 'أول أمر اتنفذ في التيرمينال'); }
+            if (!terminalUnlocked && input !== '') { terminalUnlocked = true; showBadge('⌨️', 'أول أمر في التيرمينال', ''); }
         }
 
         const excuseSubjects = ["الكود", "الـ deployment", "الـ API", "قاعدة البيانات", "الـ pull request", "السيرفر", "الـ cache", "التاسك", "الـ merge", "الـ bug ده"];
         const excuseReasons = [
-            "لسه بيعمل build من الصبح، مش غلطتي",
-            "شغال تمام عندي محلياً، المشكلة في بيئتكم أنتم",
-            "منتظر إلهام برمجي عشان الحل يطلع نضيف",
-            "في conflict فلسفي مع باقي الفريق مش هينحل بسهولة",
-            "بيحتاج coffee break أطول عشان يشتغل صح",
-            "الـ documentation ناقصة والمسؤول عنها نايم زيي",
-            "الـ Wi-Fi كان بيفكر يقول لأ من الصبح",
-            "الـ code review لسه ما اتباركش من الكون"
+            "لسه بيعمل build من الصبح",
+            "شغال تمام عندي محلياً، المشكلة عندكم",
+            "لسه مفكرش في الحل الصح",
+            "في مشكلة مع الفريق مش هتتحل بسرعة",
+            "محتاج استراحة قهوة الأول",
+            "الـ documentation ناقصة والمسؤول عنها مش موجود",
+            "الـ Wi-Fi وقع من الصبح",
+            "الـ code review لسه محدش راجعه"
         ];
 
         function generateExcuse() {
@@ -458,13 +459,13 @@
             box.innerText = `$ ${subject}: ${reason}.`;
             setTimeout(() => { box.style.transition = "opacity 0.3s ease"; box.style.opacity = 1; }, 30);
 
-            if (!excuseUnlocked) { excuseUnlocked = true; showBadge('🎭', 'إنجاز: صانع الأعذار', 'أول عذر رسمي اتولّد'); }
+            if (!excuseUnlocked) { excuseUnlocked = true; showBadge('🎭', 'أول عذر', ''); }
         }
 
         function calcBedtime() {
             const input = document.getElementById('wake-time').value;
             const out = document.getElementById('bedtime-output');
-            if (!input) { out.innerText = "// محتاج تختار معاد الصحيان الأول."; return; }
+            if (!input) { out.innerText = "محتاج تختار معاد الصحيان الأول."; return; }
 
             const [h, m] = input.split(':').map(Number);
             const wake = new Date();
@@ -482,30 +483,30 @@
         }
 
         const nagLines = [
-            "رصدنا نبض نشاط غير طبيعي عندك.. إنت لسه صاحي وبتفكر تعمل حاجة؟ 👀",
-            "تحذير: مؤشر الإنتاجية بتاعك ارتفع لثانية واحدة، رجّعه تحت فوراً.",
-            "العقل بتاعك بيحاول يخطط لمشروع جديد دلوقتي. أوقفه في مهده.",
-            "لاحظنا إنك لسه بتمرر وبتفكر. ده أول أعراض 'أنا هخلص شغل بسرعة'.",
-            "تم رصد نية مشبوهة بفتح تاب شغل. الرجاء التراجع فوراً."
+            "لسه بتفكر تعمل حاجة؟",
+            "حاسس إنك هتشتغل. سيبها.",
+            "دماغك بتخطط لحاجة. بطّلها.",
+            "لسه بتفكر تخلص شغل بسرعة؟ متعملهاش.",
+            "هتفتح تاب شغل؟ لأ."
         ];
         const lazyTips = [
-            "حط الموبايل بعيد بحيث لازم تقوم من مكانك عشانه.. وبعدين اقرر إنه مش يستاهل الحركة.",
-            "افتح تاب فاضي وحدّق فيه 5 دقايق. ده رسمياً بيتحسب استراحة ذهنية.",
-            "لو حد سألك 'خلصت الشغل؟' رد بس 'قريب' وكمل استلقاء.",
-            "اقفل التاب اللي بتخطط فيه، وافتح حاجة تانية مالهاش أي لازمة بدله.",
-            "خد قيلولة 20 دقيقة.. ولو حسيت بالذنب، سمّيها 'إعادة تشغيل النظام'.",
-            "حط منبه بعيد 10 دقايق، وقول لنفسك 'هبدأ لما يرن'. لما يرن أجّله تاني.",
-            "استلقِ على ظهرك وحدّق في السقف.. لو فكرة شغل جتلك، سرّحها بهدوء واستكمل الفراغ."
+            "حط الموبايل بعيد شوية، وبعدين قرر إنه مش يستاهل تقوم له.",
+            "افتح تاب فاضي واقعد تتأمل فيه شوية.",
+            "لو حد سألك خلصت الشغل، قوله قريب وكمل استلقاء.",
+            "اقفل التاب اللي بتخطط فيه وافتح حاجة تانية مالهاش لازمة.",
+            "خد قيلولة 20 دقيقة، وسمّيها استراحة مش كسل.",
+            "حط منبه بعد 10 دقايق وقول هبدأ لما يرن، ولما يرن أجله تاني.",
+            "استلقي وبص في السقف، ولو جتلك فكرة شغل سيبها وكمل."
         ];
 
         function startShutdownCelebration() {
             const overlay = document.getElementById('toast-overlay');
             overlay.classList.remove('warning-state');
-            document.getElementById('toast-icon').innerText = '🌙';
-            document.getElementById('toast-title').innerText = 'قرار عظيم!';
-            document.getElementById('toast-message').innerText = 'أغلقت اللابتوب واخترت الراحة على حساب التمرير. الموقع مش هيروح لمكان، إنت روح نام.';
+            document.getElementById('toast-icon').innerText = 'اخويا الكسلان';
+            document.getElementById('toast-title').innerText = 'تمام كده';
+            document.getElementById('toast-message').innerText = 'قفلت الموقع ونمت. الموقع هيفضل موجود، إنت روح نام.';
             document.getElementById('toast-actions').innerHTML = `
-                <button class="toast-primary" onclick="proceedShutdown()">قفلها خلاص 😴</button>
+                <button class="toast-primary" onclick="proceedShutdown()">أقفل وامشي</button>
                 <button class="toast-close" onclick="showStayWarning()">خليني لسه هنا شوية</button>`;
             overlay.classList.add('active');
         }
@@ -515,12 +516,12 @@
             overlay.classList.add('warning-state');
             const nag = nagLines[Math.floor(Math.random() * nagLines.length)];
             const tip = lazyTips[Math.floor(Math.random() * lazyTips.length)];
-            document.getElementById('toast-icon').innerText = '⚠️';
-            document.getElementById('toast-title').innerText = 'متلبّس متلبّس!';
-            document.getElementById('toast-message').innerHTML = nag + '<br><br><span style="color: var(--accent-green);">💡 نصيحة عشان تكسل صح:</span><br>' + tip;
+            document.getElementById('toast-icon').innerText = 'بجد!!';
+            document.getElementById('toast-title').innerText = 'لسه هنا؟';
+            document.getElementById('toast-message').innerHTML = nag + '<br><br><span style="color: var(--accent-green);">نصيحة:</span><br>' + tip;
             document.getElementById('toast-actions').innerHTML = `
                 <button class="toast-primary" onclick="showStayWarning()">هات نصيحة تانية</button>
-                <button class="toast-close" onclick="cancelShutdown()">تمام هكسل فعلاً 🛋️</button>`;
+                <button class="toast-close" onclick="cancelShutdown()">تمام هكسل</button>`;
         }
 
         function cancelShutdown() {
@@ -536,9 +537,9 @@
             const linesBox = document.getElementById('shutdown-lines');
             const script = [
                 "$ saving unfinished thoughts...",
-                "$ closing 47 open tabs (guilt: cleared)",
-                "$ dimming screen brightness → 0%",
-                "$ تصبح على خير 🌙"
+                "$ closing open tabs",
+                "$ dimming screen brightness",
+                "$ تصبح على خير"
             ];
             linesBox.innerHTML = '';
             overlay.classList.add('active');
