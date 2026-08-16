@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="فن الكسل - موقع بسيط لكل واحد بيفضل ميعملش حاجة. حاسبة نوم، مولّد أعذار، وحكمة كسل يومية.">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%98%B4%3C/text%3E%3C/svg%3E">
     <title>فن الكسل | مدونة هادئة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +23,17 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; color-scheme: dark; }
+
+        /* لمسة أخيرة: سكرول بار غامق متناسق مع تصميم الموقع بدل الافتراضي الأبيض */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+        html { scrollbar-color: var(--border-color) var(--bg-color); scrollbar-width: thin; }
+
+        @keyframes page-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .container { animation: page-fade-in 0.5s ease; }
 
         body {
             font-family: 'Cairo', sans-serif;
@@ -58,7 +71,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .zzz-particle { display: none; }
-            .meter-bar, .post-card, .lazy-btn, .toast-card, .shutdown-overlay, .badge-toast { transition: none !important; animation: none !important; }
+            .meter-bar, .post-card, .lazy-btn, .toast-card, .shutdown-overlay, .badge-toast, .container { transition: none !important; animation: none !important; }
         }
 
         .container { max-width: 800px; width: 100%; position: relative; z-index: 1; }
@@ -157,7 +170,8 @@
         .bedtime-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .bedtime-input {
             flex: 1; min-width: 140px; background-color: #090d16; border: 1px solid var(--border-color);
-            border-radius: 6px; padding: 10px 15px; color: var(--text-main); font-family: 'Fira Code', monospace; outline: none;
+            border-radius: 6px; padding: 10px 15px; color: var(--text-main); font-family: 'Fira Code', monospace;
+            outline: none; color-scheme: dark; min-height: 44px; font-size: 1rem;
         }
         .bedtime-input:focus { border-color: var(--accent-gold); }
         .bedtime-btn {
@@ -180,7 +194,12 @@
 
         footer { text-align: center; margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-muted); }
         .visitor-counter { margin-bottom: 15px; }
-        .visitor-counter img { border-radius: 6px; vertical-align: middle; }
+        .visitor-badge {
+            display: inline-flex; align-items: center; gap: 8px; background-color: #090d16;
+            border: 1px solid var(--accent-green); border-radius: 20px; padding: 8px 18px;
+            font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted);
+        }
+        .visitor-count { color: var(--accent-green); font-weight: 700; }
         .footer-lazy-badge {
             display: inline-block; background-color: #090d16; border: 1px dashed var(--accent-cyan); color: var(--accent-cyan);
             font-family: 'Fira Code', monospace; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem;
@@ -329,9 +348,9 @@
                 <div class="terminal-header">
                     <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
                 </div>
-                <div class="terminal-screen" id="terminal-output">$ اكتب (sleep) أو (work) أو (coffee) ثم اضغط تنفيذ...</div>
+                <div class="terminal-screen" id="terminal-output" aria-live="polite">$ اكتب (sleep) أو (work) أو (coffee) ثم اضغط تنفيذ...</div>
                 <div class="terminal-input-group">
-                    <input type="text" id="terminal-input" class="terminal-input" placeholder="اكتب أمراً هنا...">
+                    <input type="text" id="terminal-input" class="terminal-input" placeholder="اكتب أمراً هنا..." onkeydown="if(event.key==='Enter') runCommand();">
                     <button class="terminal-btn" onclick="runCommand()">تنفيذ</button>
                 </div>
             </div>
@@ -347,10 +366,10 @@
             <div class="bedtime-box">
                 <p class="helper">الجسم بينام على دورات كل دورة حوالي 90 دقيقة. قوللي هتصحى الساعة كام، وأنا هقولّك أحسن أوقات تنام فيها دلوقتي.</p>
                 <div class="bedtime-row">
-                    <input type="time" id="wake-time" class="bedtime-input">
+                    <input type="time" id="wake-time" class="bedtime-input" onkeydown="if(event.key==='Enter') calcBedtime();">
                     <button class="bedtime-btn" onclick="calcBedtime()">$ احسبلي</button>
                 </div>
-                <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;">اختار معاد الصحيان واضغط احسبلي.</div>
+                <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;" aria-live="polite">اختار معاد الصحيان واضغط احسبلي.</div>
             </div>
 
             <div class="lazy-button-container">
@@ -361,7 +380,11 @@
 
         <footer>
             <div class="visitor-counter">
-                <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Ffound.vercel.app&count_bg=%234ADE80&title_bg=%230F172A&icon=&icon_color=%2338BDF8&title=زوار&edge_flat=false" alt="عدد الزوار">
+                <span class="visitor-badge">
+                    <span aria-hidden="true">👀</span>
+                    <span>زوّار الموقع:</span>
+                    <span class="visitor-count" id="visitor-count">...</span>
+                </span>
             </div>
             <div class="footer-lazy-badge" onclick="startShutdownCelebration()">💤 اضغط هنا لتأجيل قراءة باقي الصفحة إلى الغد</div>
             <p>&copy; 2026 مدونة الكسل. All rights reserved.</p>
@@ -585,6 +608,15 @@
             setTimeout(() => el.remove(), 9500);
         }
         setInterval(spawnZzz, 3500);
+
+        (function loadVisitorCount() {
+            const el = document.getElementById('visitor-count');
+            if (!el) return;
+            fetch('https://countapi.mileshilliard.com/api/v1/hit/fan_alkasal_salama_found_vercel_app')
+                .then(res => { if (!res.ok) throw new Error('bad response'); return res.json(); })
+                .then(data => { el.textContent = Number(data.value).toLocaleString('en-US'); })
+                .catch(() => { el.textContent = 'مش قادر أعدهم دلوقتي 😴'; });
+        })();
     </script>
 </body>
 </html>
