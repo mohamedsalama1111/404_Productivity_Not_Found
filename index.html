@@ -179,6 +179,8 @@
         }
 
         footer { text-align: center; margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-muted); }
+        .visitor-counter { margin-bottom: 15px; }
+        .visitor-counter img { border-radius: 6px; vertical-align: middle; }
         .footer-lazy-badge {
             display: inline-block; background-color: #090d16; border: 1px dashed var(--accent-cyan); color: var(--accent-cyan);
             font-family: 'Fira Code', monospace; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem;
@@ -188,7 +190,7 @@
         .signature { font-family: 'Fira Code', monospace; color: var(--accent-cyan); font-size: 0.95rem; margin-top: 12px; font-weight: 600; }
 
         .toast-overlay {
-            position: fixed; inset: 0; background: rgba(5, 10, 20, 0.65);
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 10, 20, 0.65);
             backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 50;
         }
@@ -222,7 +224,7 @@
         .toast-overlay.warning-state .toast-title { color: var(--accent-red); }
 
         .shutdown-overlay {
-            position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.6s ease; z-index: 60;
         }
         .shutdown-overlay.active { opacity: 1; pointer-events: auto; }
@@ -358,6 +360,9 @@
         </main>
 
         <footer>
+            <div class="visitor-counter">
+                <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Ffound.vercel.app&count_bg=%234ADE80&title_bg=%230F172A&icon=&icon_color=%2338BDF8&title=زوار&edge_flat=false" alt="عدد الزوار">
+            </div>
             <div class="footer-lazy-badge" onclick="startShutdownCelebration()">💤 اضغط هنا لتأجيل قراءة باقي الصفحة إلى الغد</div>
             <p>&copy; 2026 مدونة الكسل. All rights reserved.</p>
             <div class="signature">Eng. Mohamed Salama | Software Engineer | Full-Stack Developer | Competitive Programmer | Instructor at Be;School</div>
@@ -502,7 +507,7 @@
         function startShutdownCelebration() {
             const overlay = document.getElementById('toast-overlay');
             overlay.classList.remove('warning-state');
-            document.getElementById('toast-icon').innerText = 'اخويا الكسلان';
+            document.getElementById('toast-icon').innerText = '🌙';
             document.getElementById('toast-title').innerText = 'تمام كده';
             document.getElementById('toast-message').innerText = 'قفلت الموقع ونمت. الموقع هيفضل موجود، إنت روح نام.';
             document.getElementById('toast-actions').innerHTML = `
@@ -516,7 +521,7 @@
             overlay.classList.add('warning-state');
             const nag = nagLines[Math.floor(Math.random() * nagLines.length)];
             const tip = lazyTips[Math.floor(Math.random() * lazyTips.length)];
-            document.getElementById('toast-icon').innerText = 'بجد!!';
+            document.getElementById('toast-icon').innerText = '👀';
             document.getElementById('toast-title').innerText = 'لسه هنا؟';
             document.getElementById('toast-message').innerHTML = nag + '<br><br><span style="color: var(--accent-green);">نصيحة:</span><br>' + tip;
             document.getElementById('toast-actions').innerHTML = `
