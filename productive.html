@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="فن الإنتاجية - موقع بسيط لكل واحد بيحب يخلص كل حاجة النهارده. حاسبة تركيز، مولّد دوافع، وحكمة إنجاز يومية.">
+    <meta name="theme-color" content="#fff7ed">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23f97316'/%3E%3Ctext x='50' y='68' font-size='60' font-family='monospace' fill='%23fff7ed' text-anchor='middle'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+    <title>فن الإنتاجية | يلا بينا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fff7ed;
+            --card-bg: #ffffff;
+            --text-main: #1c1917;
+            --text-muted: #78716c;
+            --accent-orange: #f97316;
+            --accent-red: #ef4444;
+            --accent-blue: #2563eb;
+            --accent-gold: #d97706;
+            --border-color: #fed7aa;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; color-scheme: light; }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 8px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-orange); }
+        html { scrollbar-color: var(--border-color) var(--bg-color); scrollbar-width: thin; }
+
+        @keyframes page-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .container { animation: page-fade-in 0.5s ease; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .active-btn:active, .terminal-btn:active, .reason-btn:active, .focus-btn:active,
+        .toast-primary:active, .toast-close:active, .save-img-btn:active, .footer-active-badge:active,
+        .post-card:active {
+            transform: scale(0.96);
+        }
+
+        .spark-particle {
+            position: fixed;
+            top: -40px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            color: var(--accent-orange);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            animation: fall-down 6s linear forwards;
+            user-select: none;
+        }
+
+        @keyframes fall-down {
+            0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+            10%  { opacity: 0.5; }
+            85%  { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(100vh) translateX(-20px) rotate(-12deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .spark-particle { display: none; }
+            .meter-bar, .post-card, .active-btn, .toast-card, .boot-overlay, .badge-toast, .container { transition: none !important; animation: none !important; }
+        }
+
+        .container { max-width: 800px; width: 100%; position: relative; z-index: 1; }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 25px;
+        }
+
+        .site-switch {
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border: 1px dashed var(--border-color);
+            border-radius: 20px;
+            padding: 6px 14px;
+            margin-bottom: 18px;
+            transition: all 0.2s ease;
+        }
+        .site-switch:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+        .active-msg {
+            background-color: #fff;
+            color: var(--accent-red);
+            font-family: 'Fira Code', monospace;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            border: 1px solid var(--accent-red);
+            transition: all 0.5s ease;
+        }
+
+        header h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+        header h1 span { color: var(--accent-orange); }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .section-title {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent-blue);
+            font-size: 1.3rem;
+            margin: 35px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-meter-box, .post-card, .terminal-box, .reason-box, .focus-box, .active-button-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .meter-info { display: flex; justify-content: space-between; font-family: 'Fira Code', monospace; margin-bottom: 12px; font-size: 0.95rem; }
+        .meter-bar-container { width: 100%; background-color: #fef3e2; height: 16px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        .meter-bar { height: 100%; background: linear-gradient(90deg, var(--accent-orange), var(--accent-red)); width: 98%; transition: width 1.2s ease; }
+
+        .posts-grid { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; }
+        .post-card { padding: 35px; transition: border-color 0.3s ease, transform 0.3s ease; }
+        .post-card:hover { border-color: var(--accent-orange); transform: translateY(-3px); }
+        .post-title { font-size: 1.5rem; margin-bottom: 12px; color: var(--accent-blue); font-weight: 700; }
+        .post-meta { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent-orange); margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        .post-content p { margin-bottom: 15px; color: var(--text-muted); font-size: 1.05rem; }
+
+        .terminal-box { background-color: #1c1917; font-family: 'Fira Code', monospace; }
+        .terminal-header { display: flex; gap: 8px; margin-bottom: 15px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background-color: #ef4444; } .dot-yellow { background-color: #f59e0b; } .dot-green { background-color: #10b981; }
+        .terminal-screen { color: var(--accent-orange); min-height: 80px; margin-bottom: 15px; font-size: 1rem; line-height: 1.6; }
+        .terminal-input-group { display: flex; gap: 10px; }
+        .terminal-input { flex: 1; background-color: #292524; border: 1px solid #44403c; border-radius: 6px; padding: 10px 15px; color: #fff7ed; font-family: 'Fira Code', monospace; outline: none; }
+        .terminal-input:focus { border-color: var(--accent-orange); }
+        .terminal-btn { background-color: var(--accent-orange); color: #1c1917; border: none; padding: 0 20px; font-family: 'Fira Code', monospace; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+        .terminal-btn:hover { background-color: #ea580c; }
+
+        .terminal-btn:focus-visible, .active-btn:focus-visible, .reason-btn:focus-visible,
+        .footer-active-badge:focus-visible, .focus-btn:focus-visible, .toast-close:focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 2px;
+        }
+
+        .reason-box p.helper, .focus-box p.helper { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 18px; }
+        .reason-output, .focus-output {
+            font-family: 'Fira Code', monospace;
+            background-color: #fef3e2;
+            border-right: 4px solid var(--accent-orange);
+            border-radius: 6px;
+            padding: 16px 18px;
+            min-height: 56px;
+            color: #9a3412;
+            font-size: 1.02rem;
+            margin-bottom: 16px;
+        }
+        .reason-btn {
+            background-color: var(--accent-orange); color: #fff; border: none; padding: 12px 24px;
+            font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1rem; border-radius: 8px;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .reason-btn:hover { background-color: #ea580c; transform: translateY(-2px); }
+
+        .focus-box { border-color: var(--accent-gold); }
+        .focus-output { border-right-color: var(--accent-gold); color: #92400e; white-space: pre-line; }
+        .focus-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .focus-select {
+            flex: 1; min-width: 100px; background-color: #fef3e2; border: 1px solid var(--border-color);
+            border-radius: 6px; padding: 10px 15px; color: var(--text-main); font-family: 'Fira Code', monospace;
+            outline: none; min-height: 44px; font-size: 1rem; appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%2378716c' d='M7 9.5 2 4.5h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: left 12px center; text-align: center;
+        }
+        .focus-select:focus { border-color: var(--accent-gold); }
+        .focus-sep { color: var(--text-muted); font-family: 'Fira Code', monospace; font-weight: 700; }
+        .focus-btn {
+            background-color: var(--accent-gold); color: #fff; border: none; padding: 0 22px;
+            font-family: 'Cairo', sans-serif; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .focus-btn:hover { background-color: #b45309; }
+
+        .active-button-container { text-align: center; margin-top: 40px; }
+        .active-btn {
+            background-color: var(--accent-orange); color: #fff; border: none; padding: 14px 30px;
+            font-family: 'Cairo', sans-serif; font-size: 1.05rem; font-weight: 700; border-radius: 8px;
+            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+        }
+        .active-btn:hover { background-color: #ea580c; transform: translateY(-2px); }
+        #active-quote {
+            margin-top: 25px; font-family: 'Fira Code', monospace; color: #9a3412; min-height: 50px;
+            font-size: 1.1rem; background: #fef3e2; padding: 15px; border-radius: 6px; border-right: 4px solid var(--accent-orange); text-align: right;
+        }
+
+        footer { text-align: center; margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-muted); }
+        .visitor-counter { margin-bottom: 15px; }
+        .visitor-badge {
+            display: inline-flex; align-items: center; gap: 8px; background-color: #fff;
+            border: 1px solid var(--accent-orange); border-radius: 20px; padding: 8px 18px;
+            font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted);
+        }
+        .visitor-count { color: var(--accent-orange); font-weight: 700; }
+        .save-img-btn {
+            display: inline-block; background-color: transparent; border: 1px dashed var(--border-color); color: var(--text-muted);
+            font-family: 'Fira Code', monospace; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem;
+            cursor: pointer; transition: all 0.2s ease; margin-top: 4px;
+        }
+        .save-img-btn:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+        .card-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+        .footer-active-badge {
+            display: inline-block; background-color: #fff; border: 1px dashed var(--accent-red); color: var(--accent-red);
+            font-family: 'Fira Code', monospace; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem;
+            margin-bottom: 15px; cursor: pointer; transition: background 0.2s;
+        }
+        .footer-active-badge:hover { background-color: #fef2f2; }
+        .signature { font-family: 'Fira Code', monospace; color: var(--accent-orange); font-size: 0.95rem; margin-top: 12px; font-weight: 600; }
+
+        .toast-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28, 25, 23, 0.5);
+            backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 50;
+        }
+        .toast-overlay.active { opacity: 1; pointer-events: auto; }
+        .toast-card {
+            background: linear-gradient(160deg, #ffffff, #fff1e6);
+            border: 1px solid var(--accent-orange); border-radius: 16px; padding: 36px 30px;
+            max-width: 360px; width: 88%; text-align: center;
+            transform: scale(0.85) translateY(20px); transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+        .toast-overlay.active .toast-card { transform: scale(1) translateY(0); }
+        .toast-icon { font-size: 3rem; margin-bottom: 14px; display: inline-block; animation: gentle-shake 1.6s ease-in-out infinite; }
+        @keyframes gentle-shake { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+        .toast-title { font-size: 1.3rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 10px; transition: color 0.3s ease; }
+        .toast-message { color: var(--text-muted); font-size: 1rem; margin-bottom: 22px; line-height: 1.7; }
+        .toast-actions { display: flex; flex-direction: column; gap: 10px; }
+        .toast-primary {
+            background-color: var(--accent-orange); color: #fff; border: none;
+            font-family: 'Cairo', sans-serif; font-weight: 700; padding: 12px 20px; border-radius: 8px;
+            cursor: pointer; font-size: 0.95rem; transition: all 0.2s ease;
+        }
+        .toast-primary:hover { background-color: #ea580c; transform: translateY(-1px); }
+        .toast-close {
+            background: transparent; border: 1px solid var(--border-color); color: var(--text-muted);
+            font-family: 'Fira Code', monospace; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .toast-close:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+        .toast-overlay.warning-state .toast-card { border-color: var(--accent-red); }
+        .toast-overlay.warning-state .toast-title { color: var(--accent-red); }
+
+        .boot-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.6s ease; z-index: 60;
+        }
+        .boot-overlay.active { opacity: 1; pointer-events: auto; }
+        .boot-terminal { font-family: 'Fira Code', monospace; color: var(--accent-orange); text-align: right; direction: ltr; max-width: 90%; }
+        .boot-terminal .line { opacity: 0; transform: translateY(6px); transition: all 0.4s ease; margin-bottom: 8px; font-size: 0.95rem; }
+        .boot-terminal .line.show { opacity: 1; transform: translateY(0); }
+        .boot-hint {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #d6d3d1;
+            opacity: 0; transition: opacity 0.6s ease 2.5s; z-index: 61; pointer-events: none;
+        }
+        .boot-overlay.active ~ .boot-hint { opacity: 1; pointer-events: auto; }
+
+        .badge-toast {
+            position: fixed; top: -80px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(90deg, #ffffff, #fff1e6);
+            border: 1px solid var(--accent-gold); border-radius: 10px; padding: 12px 22px;
+            display: flex; align-items: center; gap: 12px; z-index: 55;
+            transition: top 0.5s cubic-bezier(.34,1.56,.64,1); box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            max-width: 90vw;
+        }
+        .badge-toast.show { top: 20px; }
+        .badge-toast .badge-icon { font-size: 1.6rem; }
+        .badge-toast .badge-text { font-family: 'Cairo', sans-serif; text-align: right; }
+        .badge-toast .badge-title { font-weight: 700; color: var(--accent-gold); font-size: 0.9rem; }
+        .badge-toast .badge-sub { color: var(--text-muted); font-size: 0.78rem; }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            header h1 { font-size: 2.1rem; }
+            header p { font-size: 1rem; }
+            .post-card, .terminal-box, .activity-meter-box, .reason-box, .focus-box, .active-button-container { padding: 20px; }
+            .post-title { font-size: 1.3rem; }
+            .active-btn, .terminal-btn, .reason-btn, .focus-btn { width: 100%; padding: 12px 20px; }
+            .terminal-input-group { flex-direction: column; }
+            .card-actions { flex-direction: column; align-items: center; }
+
+            .toast-card { padding: 28px 20px; }
+            .toast-icon { font-size: 2.4rem; }
+            .toast-primary, .toast-close { width: 100%; padding: 12px 18px; }
+            .badge-toast { padding: 10px 16px; gap: 10px; }
+            .badge-toast .badge-icon { font-size: 1.3rem; }
+            .badge-toast .badge-title { font-size: 0.82rem; }
+            .badge-toast .badge-sub { font-size: 0.72rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .posts-grid { grid-template-columns: repeat(2, 1fr); }
+            .featured-post { grid-column: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a class="site-switch" href="index.html">↩ رجوع لاختيار النسخة</a>
+            <div id="active-counter" class="active-msg">التاسك مستنيك.</div>
+            <h1>فن الإنتاجية <span>// 200_OK_LazyNotFound</span></h1>
+            <p>موقع بسيط لكل واحد بيحب يخلص كل حاجة النهارده.</p>
+        </header>
+
+        <main>
+            <div class="activity-meter-box">
+                <div class="meter-info">
+                    <span>مؤشر النشاط العالمي الآن</span>
+                    <span id="meter-val" style="color: var(--accent-orange);">97.5%</span>
+                </div>
+                <div class="meter-bar-container"><div class="meter-bar" id="meter-fill"></div></div>
+            </div>
+
+            <h3 class="section-title">> المقالات البرمجية للنشيطين</h3>
+            <div class="posts-grid">
+                <article class="post-card featured-post">
+                    <h2 class="post-title">> ليه لازم تحس بالحماس أول ما تفتح عينك الصبح؟</h2>
+                    <div class="post-meta">// author: active_developer | read_time: 2m</div>
+                    <div class="post-content">
+                        <p>في عالم بيقول لك خد وقتك، لسه فيه حاجة حلوة في إنك تبدأ يومك بخطوة واحدة صغيرة وتشوفها بتكبر. الزخم مش حاجة بتيجي من فراغ، هو نتيجة إنك بدأت، حتى لو البداية كانت بسيطة.</p>
+                        <p>الإنجاز مش عن الشغل بالليل كله، هو عن إنك تبدأ بدري وتخلص وانت لسه عندك طاقة. لما تخلص المهم الأول، الباقي بيبقى أسهل بكتير.</p>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <h2 class="post-title">> دليلك السريع لإنجاز أي حاجة بإتقان</h2>
+                    <div class="post-meta">// author: task_finisher | read_time: 1m</div>
+                    <div class="post-content">
+                        <p>1. حط الموبايل في وضع التركيز وابعد أي إشعار مالهوش لازمة.</p>
+                        <p>2. افتح لستة المهام واختار أهم حاجة فيها بس.</p>
+                        <p>3. ابدأ فوراً من غير ما تفكر كتير.. التفكير الزيادة بيأجل مش بيساعد.</p>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <h2 class="post-title">> خوارزمية التركيز العميق وتأثيرها على الأداء</h2>
+                    <div class="post-meta">// author: focus_engineer | read_time: 3m</div>
+                    <div class="post-content">
+                        <p>الدراسات بتقول إن التركيز المتقطع بياخد وقت عشان يرجع تاني بعد كل مقاطعة. الحل إنك تقفل كل حاجة ممكن تشتتك، وتديلك وقت واحد متواصل للمهمة، وتاخد استراحة قصيرة بعدها.</p>
+                    </div>
+                </article>
+            </div>
+
+            <h3 class="section-title">> محاكي التيرمينال (أوامر النشاط)</h3>
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                </div>
+                <div class="terminal-screen" id="terminal-output" aria-live="polite">$ اكتب (work) أو (sleep) أو (coffee) ثم اضغط تنفيذ...</div>
+                <div class="terminal-input-group">
+                    <input type="text" id="terminal-input" class="terminal-input" placeholder="اكتب أمراً هنا..." onkeydown="if(event.key==='Enter') runCommand();">
+                    <button class="terminal-btn" onclick="runCommand()">تنفيذ</button>
+                </div>
+            </div>
+
+            <h3 class="section-title">> مولّد دوافع تبدأ بيها دلوقتي</h3>
+            <div class="reason-box">
+                <p class="helper">مش عارف تبدأ منين؟ دوس الزرار وهو هيديك سبب تبدأ بيه دلوقتي.</p>
+                <div class="reason-output" id="reason-output">دوس الزرار وهات السبب.</div>
+                <div class="card-actions">
+                    <button class="reason-btn" onclick="generateReason()">$ generate_reason()</button>
+                    <button class="save-img-btn" onclick="saveAsImage('reason-output', 'دافع')">حفظ كصورة</button>
+                </div>
+            </div>
+
+            <h3 class="section-title">> حاسبة أفضل وقت تبدأ فيه شغلك</h3>
+            <div class="focus-box">
+                <p class="helper">التركيز بيشتغل على جلسات، كل جلسة حوالي 50 دقيقة وبعدها استراحة قصيرة. قوللي عايز تخلص الساعة كام، وأنا هقولّك أحسن وقت تبدأ فيه دلوقتي.</p>
+                <div class="focus-row">
+                    <select id="deadline-hour" class="focus-select"></select>
+                    <span class="focus-sep">:</span>
+                    <select id="deadline-minute" class="focus-select"></select>
+                    <button class="focus-btn" onclick="calcFocus()">$ احسبلي</button>
+                </div>
+                <div class="focus-output" id="focus-output" style="margin-top:16px;" aria-live="polite">اختار معاد التسليم واضغط احسبلي.</div>
+                <div class="card-actions">
+                    <button class="save-img-btn" onclick="saveAsImage('focus-output', 'مواعيد-التركيز')">حفظ كصورة</button>
+                </div>
+            </div>
+
+            <div class="active-button-container">
+                <button class="active-btn" onclick="showActiveQuote()">$ execute_active_thought()</button>
+                <div id="active-quote">اضغط الزر للحصول على حكمة الإنجاز اليومية...</div>
+                <button class="save-img-btn" onclick="saveAsImage('active-quote', 'حكمة-الإنجاز')">حفظ كصورة</button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="visitor-counter">
+                <span class="visitor-badge">
+                    <span>عدد الزوار:</span>
+                    <span class="visitor-count" id="visitor-count">...</span>
+                </span>
+            </div>
+            <div class="footer-active-badge" onclick="startBoostCelebration()">🔥 اضغط هنا وابدأ تاسك دلوقتي</div>
+            <p>&copy; 2026 مدونة الإنتاجية. All rights reserved.</p>
+            <div class="signature">Eng. Mohamed Salama | Software Engineer | Full-Stack Developer | Competitive Programmer | Instructor at Be;School</div>
+        </footer>
+    </div>
+
+    <div class="toast-overlay" id="toast-overlay">
+        <div class="toast-card" id="toast-card">
+            <div class="toast-icon" id="toast-icon">🔥</div>
+            <div class="toast-title" id="toast-title">تمام كده</div>
+            <div class="toast-message" id="toast-message">فتحت المهمة وقررت تبدأ. متأجلش الحماس ده.</div>
+            <div class="toast-actions" id="toast-actions">
+                <button class="toast-primary" onclick="proceedBoost()">ابدأ فعلاً 💪</button>
+                <button class="toast-close" onclick="showRestWarning()">خليني أرتاح دقيقة</button>
+            </div>
+            <button class="save-img-btn" style="margin-top: 14px;" onclick="saveAsImage('toast-card', 'تذكير-الشغل')">حفظ كصورة</button>
+        </div>
+    </div>
+
+    <div class="boot-overlay" id="boot-overlay">
+        <div class="boot-terminal" id="boot-lines"></div>
+    </div>
+    <div class="boot-hint" id="boot-hint">اضغط أي مكان للرجوع</div>
+
+    <div class="badge-toast" id="badge-toast">
+        <div class="badge-icon" id="badge-icon">🏆</div>
+        <div class="badge-text">
+            <div class="badge-title" id="badge-title"></div>
+            <div class="badge-sub" id="badge-sub"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function saveAsImage(elementId, filename) {
+            const el = document.getElementById(elementId);
+            if (!el || typeof html2canvas === 'undefined') return;
+            html2canvas(el, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = filename + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            const msg = document.getElementById('active-counter');
+            if (seconds < 15) msg.innerText = `مضت ${seconds} ثانية.. المهمة بتستناك!`;
+            else if (seconds < 45) msg.innerText = `قضيت ${seconds} ثانية هنا.. مش وقتها تبدأ فعلاً؟`;
+            else msg.innerText = `عدّيت ${Math.floor(seconds/60)} دقيقة! سيب المتابعة وافتح التاسك.`;
+
+            const meter = document.getElementById('meter-fill');
+            const val = document.getElementById('meter-val');
+            const wobble = (94 + Math.sin(seconds / 4) * 1.8 + Math.random() * 1.2).toFixed(1);
+            meter.style.width = wobble + '%';
+            val.innerText = wobble + '%';
+        }, 1000);
+
+        const activeQuotes = [
+            "\"الفرصة الوحيدة إنك تبدأ هي دلوقتي.\"",
+            "\"شغل ساعة النهاردة أحسن من شغل يومين بكرة.\"",
+            "\"الحركة بتجيب بركة.\"",
+            "\"الإنتاجية مش موهبة، هي عادة بس.\"",
+            "\"ابدأ الأول.. الحماس بييجي وانت شغال مش قبلها.\""
+        ];
+
+        let quoteUnlocked = false, reasonUnlocked = false, terminalUnlocked = false;
+
+        function showActiveQuote() {
+            const randomIndex = Math.floor(Math.random() * activeQuotes.length);
+            const quoteElement = document.getElementById('active-quote');
+            quoteElement.style.opacity = 0;
+            quoteElement.innerText = activeQuotes[randomIndex];
+            setTimeout(() => { quoteElement.style.transition = "opacity 0.4s ease"; quoteElement.style.opacity = 1; }, 50);
+
+            if (!quoteUnlocked) { quoteUnlocked = true; showBadge('📜', 'قريت أول اقتباس', ''); }
+        }
+
+        function runCommand() {
+            const input = document.getElementById('terminal-input').value.trim().toLowerCase();
+            const output = document.getElementById('terminal-output');
+
+            if (input === 'work') output.innerHTML = "$ تم تفعيل وضع التركيز 🔥";
+            else if (input === 'sleep') output.innerHTML = "$ Error 403: ممنوع النوم دلوقتي، في تاسكات مستنية";
+            else if (input === 'coffee') output.innerHTML = "$ جاري شحن الطاقة ☕⚡";
+            else if (input === '') output.innerHTML = "$ من فضلك اكتب أمراً ما (مثلاً: work)";
+            else output.innerHTML = `$ أمر غير معروف ("${input}"). الأوامر المتاحة: work, sleep, coffee`;
+
+            document.getElementById('terminal-input').value = '';
+            if (!terminalUnlocked && input !== '') { terminalUnlocked = true; showBadge('⌨️', 'أول أمر في التيرمينال', ''); }
+        }
+
+        const reasonSubjects = ["الكود", "الـ deployment", "الـ API", "قاعدة البيانات", "الـ pull request", "السيرفر", "الـ cache", "التاسك", "الـ merge", "الـ bug ده"];
+        const reasonPushes = [
+            "أسهل بكتير من إم بتفكر فيه",
+            "لو بدأت دلوقتي هتخلصه قبل ما تحس",
+            "خطوة واحدة بس وهتحس إنك ماشي",
+            "الفريق مستني منك الجزء ده",
+            "خمس دقايق تركيز وهتخلص أسرع مما تتخيل",
+            "أهو ده الوقت اللي بتستناه من الصبح",
+            "خلصه دلوقتي عشان بكرة تبقى فاضي فعلاً",
+            "مفيش سبب تأجله أكتر من كده"
+        ];
+
+        function generateReason() {
+            const subject = reasonSubjects[Math.floor(Math.random() * reasonSubjects.length)];
+            const push = reasonPushes[Math.floor(Math.random() * reasonPushes.length)];
+            const box = document.getElementById('reason-output');
+            box.style.opacity = 0;
+            box.innerText = `$ ${subject}: ${push}.`;
+            setTimeout(() => { box.style.transition = "opacity 0.3s ease"; box.style.opacity = 1; }, 30);
+
+            if (!reasonUnlocked) { reasonUnlocked = true; showBadge('🎯', 'أول دافع', ''); }
+        }
+
+        function populateFocusSelects() {
+            const hourEl = document.getElementById('deadline-hour');
+            const minuteEl = document.getElementById('deadline-minute');
+            for (let h = 0; h < 24; h++) {
+                const opt = document.createElement('option');
+                opt.value = h;
+                opt.textContent = String(h).padStart(2, '0');
+                hourEl.appendChild(opt);
+            }
+            for (let m = 0; m < 60; m += 5) {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = String(m).padStart(2, '0');
+                minuteEl.appendChild(opt);
+            }
+            hourEl.value = 18;
+            minuteEl.value = 0;
+        }
+        populateFocusSelects();
+
+        function calcFocus() {
+            const h = Number(document.getElementById('deadline-hour').value);
+            const m = Number(document.getElementById('deadline-minute').value);
+            const out = document.getElementById('focus-output');
+            const input = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+
+            const deadline = new Date();
+            deadline.setHours(h, m, 0, 0);
+            if (deadline <= new Date()) deadline.setDate(deadline.getDate() + 1);
+
+            const blocks = [2, 3, 4, 5];
+            const lines = blocks.map(c => {
+                const startTime = new Date(deadline.getTime() - (c * 50 + 10) * 60000);
+                const hh = String(startTime.getHours()).padStart(2, '0');
+                const mm = String(startTime.getMinutes()).padStart(2, '0');
+                return `ابدأ الساعة ${hh}:${mm}  →  ${c} جلسات تركيز`;
+            });
+            out.innerText = "$ لو عايز تخلص الساعة " + input + "، أحسن وقت تبدأ فيه دلوقتي:\n" + lines.join('\n');
+        }
+
+        const nagLines = [
+            "لسه بتفكر تاخد استراحة؟",
+            "حاسس إنك هتفضل قاعد. قوم.",
+            "دماغك بيدور على عذر. مسمعوش.",
+            "لسه بتأجل التاسك؟ متعملهاش.",
+            "هتفتح تاب فاضي؟ لأ."
+        ];
+        const activeTips = [
+            "قوم اتمشى دقيقتين وارجع بسرعة، مش أكتر.",
+            "افتح التاسك اللي مؤجله وابدأ فيه سطر واحد بس.",
+            "لو حد سألك بدأت الشغل، قوله أيوه وابدأ فعلاً.",
+            "اقفل أي تاب مالوش لازمة وسيب بس تاب الشغل.",
+            "خد 5 دقايق تنفس، وارجع للتاسك على طول.",
+            "حط تايمر 25 دقيقة وقول هشتغل لحد ما يرن.",
+            "قوم من مكانك ثانية واحدة، بعدين ارجع لمكانك وابدأ."
+        ];
+
+        function startBoostCelebration() {
+            const overlay = document.getElementById('toast-overlay');
+            overlay.classList.remove('warning-state');
+            document.getElementById('toast-icon').innerText = '🔥';
+            document.getElementById('toast-title').innerText = 'تمام كده';
+            document.getElementById('toast-message').innerText = 'فتحت المهمة وقررت تبدأ. متأجلش الحماس ده.';
+            document.getElementById('toast-actions').innerHTML = `
+                <button class="toast-primary" onclick="proceedBoost()">ابدأ فعلاً 💪</button>
+                <button class="toast-close" onclick="showRestWarning()">خليني أرتاح دقيقة</button>`;
+            overlay.classList.add('active');
+        }
+
+        function showRestWarning() {
+            const overlay = document.getElementById('toast-overlay');
+            overlay.classList.add('warning-state');
+            const nag = nagLines[Math.floor(Math.random() * nagLines.length)];
+            const tip = activeTips[Math.floor(Math.random() * activeTips.length)];
+            document.getElementById('toast-icon').innerText = '👀';
+            document.getElementById('toast-title').innerText = 'هتقعد كده ليه؟';
+            document.getElementById('toast-message').innerHTML = nag + '<br><br><span style="color: var(--accent-orange);">دافع:</span><br>' + tip;
+            document.getElementById('toast-actions').innerHTML = `
+                <button class="toast-primary" onclick="showRestWarning()">هات دافع تاني</button>
+                <button class="toast-close" onclick="cancelBoost()">تمام هرجع أشتغل</button>`;
+        }
+
+        function cancelBoost() {
+            document.getElementById('toast-overlay').classList.remove('active', 'warning-state');
+        }
+        document.getElementById('toast-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'toast-overlay') cancelBoost();
+        });
+
+        function proceedBoost() {
+            document.getElementById('toast-overlay').classList.remove('active');
+            const overlay = document.getElementById('boot-overlay');
+            const linesBox = document.getElementById('boot-lines');
+            const script = [
+                "$ closing distractions...",
+                "$ opening task list",
+                "$ waking up focus mode",
+                "$ يلا بينا"
+            ];
+            linesBox.innerHTML = '';
+            overlay.classList.add('active');
+            script.forEach((text, i) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'line';
+                    div.innerText = text;
+                    linesBox.appendChild(div);
+                    requestAnimationFrame(() => div.classList.add('show'));
+                }, i * 650);
+            });
+            setTimeout(() => { overlay.classList.remove('active'); }, script.length * 650 + 1400);
+        }
+
+        document.getElementById('boot-overlay').addEventListener('click', () => {
+            document.getElementById('boot-overlay').classList.remove('active');
+        });
+
+        function showBadge(icon, title, sub) {
+            const toast = document.getElementById('badge-toast');
+            document.getElementById('badge-icon').innerText = icon;
+            document.getElementById('badge-title').innerText = title;
+            document.getElementById('badge-sub').innerText = sub;
+            toast.classList.add('show');
+            clearTimeout(window.__badgeTimer);
+            window.__badgeTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+
+        function spawnSpark() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const el = document.createElement('div');
+            el.className = 'spark-particle';
+            el.innerText = Math.random() > 0.5 ? '⚡' : '•';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (12 + Math.random() * 14) + 'px';
+            const duration = 5 + Math.random() * 3;
+            el.style.animationDuration = duration + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), duration * 1000 + 200);
+        }
+        setInterval(spawnSpark, 3500);
+
+        (function loadVisitorCount() {
+            const el = document.getElementById('visitor-count');
+            if (!el) return;
+            fetch('https://countapi.mileshilliard.com/api/v1/hit/fan_alentaj_salama_found_vercel_app')
+                .then(res => { if (!res.ok) throw new Error('bad response'); return res.json(); })
+                .then(data => { el.textContent = Number(data.value).toLocaleString('en-US'); })
+                .catch(() => { el.textContent = 'مش قادر أعد الزوار دلوقتي'; });
+        })();
+    </script>
+</body>
+</html>
