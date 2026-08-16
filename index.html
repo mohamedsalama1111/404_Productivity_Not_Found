@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="فن الكسل - موقع بسيط لكل واحد بيفضل ميعملش حاجة. حاسبة نوم، مولّد أعذار، وحكمة كسل يومية.">
     <meta name="theme-color" content="#0f172a">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%98%B4%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f172a'/%3E%3Ctext x='50' y='68' font-size='60' font-family='monospace' fill='%234ade80' text-anchor='middle'%3EZ%3C/text%3E%3C/svg%3E">
     <title>فن الكسل | مدونة هادئة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -25,7 +25,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; color-scheme: dark; }
 
-        /* لمسة أخيرة: سكرول بار غامق متناسق مع تصميم الموقع بدل الافتراضي الأبيض */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 8px; }
@@ -167,13 +166,16 @@
 
         .bedtime-box { border-color: var(--accent-gold); }
         .bedtime-output { border-right-color: var(--accent-gold); color: var(--accent-gold); white-space: pre-line; }
-        .bedtime-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .bedtime-input {
-            flex: 1; min-width: 140px; background-color: #090d16; border: 1px solid var(--border-color);
+        .bedtime-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .bedtime-select {
+            flex: 1; min-width: 100px; background-color: #090d16; border: 1px solid var(--border-color);
             border-radius: 6px; padding: 10px 15px; color: var(--text-main); font-family: 'Fira Code', monospace;
-            outline: none; color-scheme: dark; min-height: 44px; font-size: 1rem;
+            outline: none; min-height: 44px; font-size: 1rem; appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%2394a3b8' d='M7 9.5 2 4.5h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: left 12px center; text-align: center;
         }
-        .bedtime-input:focus { border-color: var(--accent-gold); }
+        .bedtime-select:focus { border-color: var(--accent-gold); }
+        .bedtime-sep { color: var(--text-muted); font-family: 'Fira Code', monospace; font-weight: 700; }
         .bedtime-btn {
             background-color: var(--accent-gold); color: #1e1305; border: none; padding: 0 22px;
             font-family: 'Cairo', sans-serif; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s ease;
@@ -200,6 +202,12 @@
             font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--text-muted);
         }
         .visitor-count { color: var(--accent-green); font-weight: 700; }
+        .save-img-btn {
+            display: inline-block; background-color: transparent; border: 1px dashed var(--border-color); color: var(--text-muted);
+            font-family: 'Fira Code', monospace; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem;
+            cursor: pointer; transition: all 0.2s ease; margin-top: 4px;
+        }
+        .save-img-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
         .footer-lazy-badge {
             display: inline-block; background-color: #090d16; border: 1px dashed var(--accent-cyan); color: var(--accent-cyan);
             font-family: 'Fira Code', monospace; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem;
@@ -278,7 +286,7 @@
             .post-card, .terminal-box, .lazy-meter-box, .excuse-box, .bedtime-box, .lazy-button-container { padding: 20px; }
             .post-title { font-size: 1.3rem; }
             .lazy-btn, .terminal-btn, .excuse-btn, .bedtime-btn { width: 100%; padding: 12px 20px; }
-            .terminal-input-group, .bedtime-row { flex-direction: column; }
+            .terminal-input-group { flex-direction: column; }
 
             .toast-card { padding: 28px 20px; }
             .toast-icon { font-size: 2.4rem; }
@@ -360,29 +368,34 @@
                 <p class="helper">عندك تاسك متأخر؟ دوس الزرار وهو هيديك عذر.</p>
                 <div class="excuse-output" id="excuse-output">دوس الزرار وهات العذر.</div>
                 <button class="excuse-btn" onclick="generateExcuse()">$ generate_excuse()</button>
+                <br>
+                <button class="save-img-btn" onclick="saveAsImage('excuse-output', 'عذر')">حفظ كصورة</button>
             </div>
 
             <h3 class="section-title">> حاسبة توقيت النوم المثالي</h3>
             <div class="bedtime-box">
                 <p class="helper">الجسم بينام على دورات كل دورة حوالي 90 دقيقة. قوللي هتصحى الساعة كام، وأنا هقولّك أحسن أوقات تنام فيها دلوقتي.</p>
                 <div class="bedtime-row">
-                    <input type="time" id="wake-time" class="bedtime-input" onkeydown="if(event.key==='Enter') calcBedtime();">
+                    <select id="wake-hour" class="bedtime-select"></select>
+                    <span class="bedtime-sep">:</span>
+                    <select id="wake-minute" class="bedtime-select"></select>
                     <button class="bedtime-btn" onclick="calcBedtime()">$ احسبلي</button>
                 </div>
                 <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;" aria-live="polite">اختار معاد الصحيان واضغط احسبلي.</div>
+                <button class="save-img-btn" onclick="saveAsImage('bedtime-output', 'مواعيد-النوم')">حفظ كصورة</button>
             </div>
 
             <div class="lazy-button-container">
                 <button class="lazy-btn" onclick="showLazyQuote()">$ execute_lazy_thought()</button>
                 <div id="lazy-quote">اضغط الزر للحصول على حكمة البرمجة والكسل...</div>
+                <button class="save-img-btn" onclick="saveAsImage('lazy-quote', 'حكمة-الكسل')">حفظ كصورة</button>
             </div>
         </main>
 
         <footer>
             <div class="visitor-counter">
                 <span class="visitor-badge">
-                    <span aria-hidden="true">👀</span>
-                    <span>زوّار الموقع:</span>
+                    <span>عدد الزوار:</span>
                     <span class="visitor-count" id="visitor-count">...</span>
                 </span>
             </div>
@@ -393,7 +406,7 @@
     </div>
 
     <div class="toast-overlay" id="toast-overlay">
-        <div class="toast-card">
+        <div class="toast-card" id="toast-card">
             <div class="toast-icon" id="toast-icon">🌙</div>
             <div class="toast-title" id="toast-title">تمام كده</div>
             <div class="toast-message" id="toast-message">قفلت الموقع ونمت. الموقع هيفضل موجود، إنت روح نام.</div>
@@ -401,6 +414,7 @@
                 <button class="toast-primary" onclick="proceedShutdown()">أقفل وامشي</button>
                 <button class="toast-close" onclick="showStayWarning()">خليني لسه هنا شوية</button>
             </div>
+            <button class="save-img-btn" style="margin-top: 14px;" onclick="saveAsImage('toast-card', 'تذكير-النوم')">حفظ كصورة</button>
         </div>
     </div>
 
@@ -417,7 +431,19 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        function saveAsImage(elementId, filename) {
+            const el = document.getElementById(elementId);
+            if (!el || typeof html2canvas === 'undefined') return;
+            html2canvas(el, { backgroundColor: '#1e293b', scale: 2 }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = filename + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
         let seconds = 0;
         setInterval(() => {
             seconds++;
@@ -490,12 +516,32 @@
             if (!excuseUnlocked) { excuseUnlocked = true; showBadge('🎭', 'أول عذر', ''); }
         }
 
-        function calcBedtime() {
-            const input = document.getElementById('wake-time').value;
-            const out = document.getElementById('bedtime-output');
-            if (!input) { out.innerText = "محتاج تختار معاد الصحيان الأول."; return; }
+        function populateBedtimeSelects() {
+            const hourEl = document.getElementById('wake-hour');
+            const minuteEl = document.getElementById('wake-minute');
+            for (let h = 0; h < 24; h++) {
+                const opt = document.createElement('option');
+                opt.value = h;
+                opt.textContent = String(h).padStart(2, '0');
+                hourEl.appendChild(opt);
+            }
+            for (let m = 0; m < 60; m += 5) {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.textContent = String(m).padStart(2, '0');
+                minuteEl.appendChild(opt);
+            }
+            hourEl.value = 7;
+            minuteEl.value = 0;
+        }
+        populateBedtimeSelects();
 
-            const [h, m] = input.split(':').map(Number);
+        function calcBedtime() {
+            const h = Number(document.getElementById('wake-hour').value);
+            const m = Number(document.getElementById('wake-minute').value);
+            const out = document.getElementById('bedtime-output');
+            const input = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+
             const wake = new Date();
             wake.setHours(h, m, 0, 0);
             if (wake <= new Date()) wake.setDate(wake.getDate() + 1);
@@ -615,7 +661,7 @@
             fetch('https://countapi.mileshilliard.com/api/v1/hit/fan_alkasal_salama_found_vercel_app')
                 .then(res => { if (!res.ok) throw new Error('bad response'); return res.json(); })
                 .then(data => { el.textContent = Number(data.value).toLocaleString('en-US'); })
-                .catch(() => { el.textContent = 'مش قادر أعدهم دلوقتي 😴'; });
+                .catch(() => { el.textContent = 'مش قادر أعد الزوار دلوقتي'; });
         })();
     </script>
 </body>
