@@ -46,6 +46,14 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .lazy-btn:active, .terminal-btn:active, .excuse-btn:active, .bedtime-btn:active,
+        .toast-primary:active, .toast-close:active, .save-img-btn:active, .footer-lazy-badge:active,
+        .post-card:active {
+            transform: scale(0.96);
         }
 
         .zzz-particle {
@@ -208,6 +216,7 @@
             cursor: pointer; transition: all 0.2s ease; margin-top: 4px;
         }
         .save-img-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .card-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
         .footer-lazy-badge {
             display: inline-block; background-color: #090d16; border: 1px dashed var(--accent-cyan); color: var(--accent-cyan);
             font-family: 'Fira Code', monospace; padding: 8px 15px; border-radius: 20px; font-size: 0.85rem;
@@ -287,6 +296,7 @@
             .post-title { font-size: 1.3rem; }
             .lazy-btn, .terminal-btn, .excuse-btn, .bedtime-btn { width: 100%; padding: 12px 20px; }
             .terminal-input-group { flex-direction: column; }
+            .card-actions { flex-direction: column; align-items: center; }
 
             .toast-card { padding: 28px 20px; }
             .toast-icon { font-size: 2.4rem; }
@@ -367,9 +377,10 @@
             <div class="excuse-box">
                 <p class="helper">عندك تاسك متأخر؟ دوس الزرار وهو هيديك عذر.</p>
                 <div class="excuse-output" id="excuse-output">دوس الزرار وهات العذر.</div>
-                <button class="excuse-btn" onclick="generateExcuse()">$ generate_excuse()</button>
-                <br>
-                <button class="save-img-btn" onclick="saveAsImage('excuse-output', 'عذر')">حفظ كصورة</button>
+                <div class="card-actions">
+                    <button class="excuse-btn" onclick="generateExcuse()">$ generate_excuse()</button>
+                    <button class="save-img-btn" onclick="saveAsImage('excuse-output', 'عذر')">حفظ كصورة</button>
+                </div>
             </div>
 
             <h3 class="section-title">> حاسبة توقيت النوم المثالي</h3>
@@ -382,7 +393,9 @@
                     <button class="bedtime-btn" onclick="calcBedtime()">$ احسبلي</button>
                 </div>
                 <div class="bedtime-output" id="bedtime-output" style="margin-top:16px;" aria-live="polite">اختار معاد الصحيان واضغط احسبلي.</div>
-                <button class="save-img-btn" onclick="saveAsImage('bedtime-output', 'مواعيد-النوم')">حفظ كصورة</button>
+                <div class="card-actions">
+                    <button class="save-img-btn" onclick="saveAsImage('bedtime-output', 'مواعيد-النوم')">حفظ كصورة</button>
+                </div>
             </div>
 
             <div class="lazy-button-container">
@@ -647,11 +660,13 @@
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             const el = document.createElement('div');
             el.className = 'zzz-particle';
-            el.innerText = 'z';
+            el.innerText = Math.random() > 0.5 ? 'Z' : 'z';
             el.style.left = Math.random() * 100 + 'vw';
             el.style.fontSize = (14 + Math.random() * 16) + 'px';
+            const duration = 7 + Math.random() * 4;
+            el.style.animationDuration = duration + 's';
             document.body.appendChild(el);
-            setTimeout(() => el.remove(), 9500);
+            setTimeout(() => el.remove(), duration * 1000 + 200);
         }
         setInterval(spawnZzz, 3500);
 
